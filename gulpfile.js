@@ -6,13 +6,15 @@ var gulp = require('gulp'),
   connect = require('gulp-connect'),
   compass = require('gulp-compass');
 
-var env, coffeeSources, jsSources, sassSources, htmlSources, jsonSources, outputDir;
+var env, coffeeSources, jsSources, sassSources, htmlSources, jsonSources, outputDir, sassStyle;
 
-env= process.env.NODE.ENV || 'development';
+env= process.env.NODE_ENV || 'development';
 if(env === 'development') {
   outputDir = 'builds/development/';
+  sassStyle = 'expanded';
 } else {
   outputDir = 'builds/production/';
+  sassStyle = 'compressed';
 }
 
 coffeeSources = ['components/coffee/*.coffee'];
@@ -42,7 +44,7 @@ gulp.task('compass', function(){
       css: outputDir + 'css',
       sass: 'components/sass',
       image: outputDir + 'images',
-      style: 'expanded'
+      style: sassStyle
     })
     .on('error', gutil.log))
     .pipe(gulp.dest(outputDir + 'css'))
